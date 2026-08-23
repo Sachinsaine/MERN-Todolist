@@ -2,11 +2,37 @@ import { useEffect, useState } from "react";
 
 import "./App.css";
 import { Todo } from "./Todo";
+import { TodoForm } from "./TodoForm";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // const addTodo = (todo) => {
+  //   setTodos((prevTodo) => [...prevTodo, { title: todo }]);
+  // };
+
+  const addTodo = async (todo) => {
+    try {
+      const response = await fetch("http://localhost:4000/api/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title: todo }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create todo");
+      }
+
+      const newTodo = await response.json();
+      setTodos((prevTodo) => [...prevTodo, newTodo]);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   useEffect(() => {
     async function fetchTodos() {
@@ -38,6 +64,7 @@ function App() {
   return (
     <div>
       <Todo todos={todos} />
+      <TodoForm addTodo={addTodo} />
     </div>
   );
 }

@@ -4,7 +4,7 @@ export const Todo = ({ todos }) => {
       <h1>Todo - List</h1>
       <div>
         {todos.map((todo) => {
-          return <div>{todo.title}</div>;
+          return <div key={todo._id}>{todo.title}</div>;
         })}
       </div>
     </div>
