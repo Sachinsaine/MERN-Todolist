@@ -77,6 +77,31 @@ function App() {
     }
   };
 
+  const updateTodo = async (id, title) => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/todos/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to updated todo");
+      }
+
+      const updated = await response.json();
+
+      setTodos((prevTodo) =>
+        prevTodo.map((todo) => (todo._id === id ? updated : todo)),
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   useEffect(() => {
     async function fetchTodos() {
       try {
@@ -104,15 +129,26 @@ function App() {
   if (error) {
     return <h1>{error}</h1>;
   }
+
+  const totalTodos = todos.length;
+  const completedTodos = todos.filter((todo) => todo.completed).length;
+  const notCompletedTodos = totalTodos - completedTodos;
+
   return (
     <div className={styles.app}>
       <div className={styles.container}>
-        <TodoForm addTodo={addTodo} />
+        <TodoForm
+          addTodo={addTodo}
+          totalTodos={totalTodos}
+          completedTodos={completedTodos}
+          notCompletedTodos={notCompletedTodos}
+        />
 
         <Todo
           todos={todos}
           removeTodo={removeTodo}
           handleCompleted={handleCompleted}
+          updateTodo={updateTodo}
         />
       </div>
     </div>

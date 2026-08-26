@@ -1,7 +1,12 @@
 import { useState } from "react";
 import "./App.css";
 import styles from "./todoForm.module.css";
-export const TodoForm = ({ addTodo }) => {
+export const TodoForm = ({
+  addTodo,
+  totalTodos,
+  completedTodos,
+  notCompletedTodos,
+}) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
@@ -30,6 +35,12 @@ export const TodoForm = ({ addTodo }) => {
           Add
         </button>
       </form>
+
+      <div className={styles.totalCont}>
+        <h5>Total Todos: {totalTodos}</h5>
+        <h5>Completed: {completedTodos}</h5>
+        <h5>Not Completed: {notCompletedTodos}</h5>
+      </div>
     </div>
   );
 };
