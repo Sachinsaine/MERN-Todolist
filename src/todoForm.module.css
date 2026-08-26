@@ -1,0 +1,97 @@
+.formContainer {
+  padding: 30px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.heading {
+  margin: 0 0 25px;
+
+  text-align: center;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  color: #333;
+}
+
+.form {
+  display: flex;
+  gap: 12px;
+}
+
+.input {
+  flex: 1;
+
+  padding: 14px 16px;
+
+  border: 2px solid #e5e7eb;
+  outline: none;
+
+  border-radius: 12px;
+
+  background: #f9fafb;
+
+  color: #333;
+
+  font-size: 16px;
+
+  transition: all 0.25s ease;
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+.input:focus {
+  background: white;
+
+  border-color: #667eea;
+
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+}
+
+.addButton {
+  padding: 0 22px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #667eea, #764ba2);
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+
+  transition: all 0.25s ease;
+}
+
+.addButton:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+}
+
+.addButton:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 600px) {
+  .form {
+    flex-direction: column;
+  }
+
+  .addButton {
+    height: 48px;
+  }
+}

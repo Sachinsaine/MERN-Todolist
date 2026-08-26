@@ -1,12 +1,27 @@
-export const Todo = ({ todos }) => {
+import styles from "./todo.module.css";
+
+export const Todo = ({ todos, removeTodo, handleCompleted }) => {
   return (
-    <div>
-      <h1>Todo - List</h1>
-      <div>
-        {todos.map((todo) => {
-          return <div key={todo._id}>{todo.title}</div>;
-        })}
-      </div>
+    <div className={styles.list}>
+      {todos.map((todo) => (
+        <div className={styles.item} key={todo._id}>
+          <span
+            className={`${styles.title} ${
+              todo.completed ? styles.completed : ""
+            }`}
+            onClick={() => handleCompleted(todo.completed, todo._id)}
+          >
+            {todo.title}
+          </span>
+
+          <button
+            className={styles.removeButton}
+            onClick={() => removeTodo(todo._id)}
+          >
+            Remove
+          </button>
+        </div>
+      ))}
     </div>
   );
 };

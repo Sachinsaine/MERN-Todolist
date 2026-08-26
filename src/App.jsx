@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
 
-import "./App.css";
 import { Todo } from "./Todo";
 import { TodoForm } from "./TodoForm";
-
+import styles from "./app.module.css";
 function App() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  // const addTodo = (todo) => {
-  //   setTodos((prevTodo) => [...prevTodo, { title: todo }]);
-  // };
 
   const addTodo = async (todo) => {
     try {
@@ -29,6 +24,54 @@ function App() {
 
       const newTodo = await response.json();
       setTodos((prevTodo) => [...prevTodo, newTodo]);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const removeTodo = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/todos/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to Delete todo");
+      }
+
+      setTodos((prevtodos) => prevtodos.filter((todo) => todo._id !== id));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleCompleted = async (completed, id) => {
+    try {
+      console.log("Before:", completed);
+      console.log("ID:", id);
+      console.log("Sending:", !completed);
+
+      const response = await fetch(`http://localhost:4000/api/todos/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          completed: !completed,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update todo");
+      }
+
+      const updatedTodo = await response.json();
+
+      console.log("Updated from API:", updatedTodo);
+
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) => (todo._id === id ? updatedTodo : todo)),
+      );
     } catch (err) {
       setError(err.message);
     }
@@ -62,9 +105,16 @@ function App() {
     return <h1>{error}</h1>;
   }
   return (
-    <div>
-      <Todo todos={todos} />
-      <TodoForm addTodo={addTodo} />
+    <div className={styles.app}>
+      <div className={styles.container}>
+        <TodoForm addTodo={addTodo} />
+
+        <Todo
+          todos={todos}
+          removeTodo={removeTodo}
+          handleCompleted={handleCompleted}
+        />
+      </div>
     </div>
   );
 }

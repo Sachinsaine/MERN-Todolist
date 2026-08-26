@@ -1,31 +1,34 @@
 import { useState } from "react";
-
+import "./App.css";
+import styles from "./todoForm.module.css";
 export const TodoForm = ({ addTodo }) => {
   const [input, setInput] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!input.trim()) return;
-    console.log(input);
+
     addTodo(input);
     setInput("");
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h4>TODO FORM</h4>
-        <div>
-          <label htmlFor="">Add Todo</label>
-          <input
-            type="text"
-            placeholder="Add Todo"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
+    <div className={styles.formContainer}>
+      <h4 className={styles.heading}>TODO - List</h4>
 
-          <button type="submit">Add</button>
-        </div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Add Todo"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+
+        <button className={styles.addButton} type="submit">
+          Add
+        </button>
       </form>
     </div>
   );
