@@ -1,14 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 import styles from "./todoForm.module.css";
-export const TodoForm = ({
-  addTodo,
-  totalTodos,
-  completedTodos,
-  notCompletedTodos,
-}) => {
+export const TodoForm = (props) => {
   const [input, setInput] = useState("");
-
+  const { addTodo, totalTodos, completedTodos, notCompletedTodos } = props;
   const handleSubmit = (e) => {
     e.preventDefault();
 

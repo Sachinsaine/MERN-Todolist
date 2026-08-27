@@ -2,10 +2,10 @@ import { useState } from "react";
 import { DialogBox } from "./DialogBox";
 import styles from "./todo.module.css";
 
-export const Todo = ({ todos, removeTodo, handleCompleted, updateTodo }) => {
+export const Todo = (props) => {
+  const { todos, removeTodo, handleCompleted, updateTodo } = props;
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState(null);
-
   const handleOpen = (todo) => {
     setOpenDialog(true);
     setSelectedTodo(todo);
@@ -28,11 +28,9 @@ export const Todo = ({ todos, removeTodo, handleCompleted, updateTodo }) => {
               className={`${styles.title} ${
                 todo.completed ? styles.completed : ""
               }`}
-              onClick={() => handleOpen(todo)}
+              onClick={() => handleCompleted(todo.completed, todo._id)}
             >
-              <span onClick={() => handleCompleted(todo.completed, todo._id)}>
-                {todo.title}
-              </span>
+              <span onClick={() => handleOpen(todo)}>{todo.title}</span>
             </span>
 
             <button
